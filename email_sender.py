@@ -4,9 +4,11 @@ import smtplib
 from email.message import EmailMessage
 from string import Template
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+load_dotenv()
 
-pw = os.getenv('PASSWORD')
+sender= os.getenv('SENDER_EMAIL')
 
 html = Template(Path('index.html').read_text())
 
@@ -14,19 +16,19 @@ msg = EmailMessage()
 # the subject line
 msg['Subject'] = 'Winner! 1,000,000 Dollhairs!'
 # the sender's email address
-msg['From'] = 'moonhighowl@gmail.com'
+msg['From'] = sender
 # the recipient's email address
 msg['To'] = 'bryantdalton19@gmail.com'
 # email content
-msg.set_content(html.substitute({'name': 'TinTin'}), 'html')
+msg.set_content(html.substitute({'name': 'Bryan'}), 'html')
 
 
 # Send the message via gmail.
 with smtplib.SMTP(host='smtp.gmail.com', port= 587) as smpt:
     smpt.ehlo()
     smpt.starttls()
-    smpt.login('moonhighowl@gmail.com', f'{pw}')
+    smpt.login(sender, os.getenv('PASSWORD'))
     smpt.send_message(msg)
-    print('All good boss!')
+    print('Emails Sent!')
 
 #future update: import sys and use arg v for name and recipient
