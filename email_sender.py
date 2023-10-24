@@ -7,6 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import sys
 import os
+
 load_dotenv()
 
 sender= os.getenv('SENDER_EMAIL')
